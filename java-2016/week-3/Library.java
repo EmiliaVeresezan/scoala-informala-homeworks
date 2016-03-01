@@ -2,10 +2,64 @@ import java.util.Scanner;
 
 public class Library {
 	
-	Novel [] novelArray;
-	ArtAlbum [] artAlbumArray;
+	//private Novel [] novelArray;
+	//private ArtAlbum [] artAlbumArray;
+        private Book [] books = new Book[200];
+        private int nextIndex=0;
+        
+//public Library (int i, int j){
+//    novelArray = new Novel [i];
+//    artAlbumArray = new ArtAlbum[j];
+//}
 
-public Novel readNovel(){
+public void makeDecision(){
+    System.out.println("What do you want to do? (add book/delete book/list books ");
+    Scanner keyboard = new Scanner(System.in);
+    String input = keyboard.nextLine();
+    if (input.equals("add book")) {
+        Book b = readBook();
+        addBook(b);
+    }
+    if (input.equals("delete book")){
+    
+    }
+    if (input.equals("list books")){
+        listBooks();
+    }
+    
+}
+
+    
+public void addBook(Book b){
+    if (nextIndex <books.length){
+        books[nextIndex]=b;
+        System.out.println("Book added at postion "+ nextIndex);
+        nextIndex++;
+    }
+
+}
+
+public Book readBook() {
+    Book b ;
+    Scanner keyboard = new Scanner(System.in);
+    System.out.print("Is it a novel or an art album?");
+        String input = keyboard.nextLine();
+        System.out.println(input);
+        if (input.contains("novel")){
+           b = readNovel();
+        }
+        else if (input.contains("art album")){
+                  b = readArtAlbum();
+            }
+        else {
+            System.out.println("It has to be a novel ora an art album");
+            b = null;
+            
+        }
+        return b;
+}
+
+public Book readNovel(){
     Scanner reader = new Scanner(System.in);
     
     System.out.print("Enter the name of the novel ");
@@ -17,40 +71,42 @@ public Novel readNovel(){
     System.out.print("Enter the type of the novel ");
     String typeOfNovel = reader.nextLine();
     
-    Novel n = new Novel(nameOfNovel, nrOfPages, typeOfNovel);
+    Book n = new Novel(nameOfNovel, nrOfPages, typeOfNovel);
     return n;
 }
+public Book readArtAlbum(){
+    Scanner reader = new Scanner(System.in);
+    
+    System.out.print("Enter the name of the art album ");
+    String nameOfAlbum = reader.nextLine();
+    System.out.print("Enter the number of pages ");
+    String strNrPages = reader.nextLine();
+    int nrOfPages = Integer.parseInt(strNrPages);
+    
+    System.out.print("Enter the paper quality of the art album ");
+    String qualityOfPaper = reader.nextLine();
+    
+    Book a = new ArtAlbum(nameOfAlbum, nrOfPages, qualityOfPaper);
+    return a;
+}
         
-public void addNovel(int index){
-    
-    Novel n = readNovel();
-    novelArray[index]=n;
-    
-} 
+public void listBooks(){
+    for (Book book: books){
+        System.out.println(book.getName()+" "+book.getNrPages()+" " );
+    }
 
+}
 
 public static void main (String [] args){
 	
     Library libr = new Library();
-    String bookInsert="yes"; 
-    int arrayPosition = 0;
-    while (bookInsert=="yes"){
-    System.out.println("Do you want to insert a book? ");
-    Scanner reader = new Scanner(System.in);
-    String input = reader.nextLine();
+    libr.makeDecision();
     
-    if (input.equals("yes")){
-        System.out.print("Is it a novel or an art album?");
-        input = reader.nextLine();
-        System.out.println(input);
-        if (input.contains("novel")){
-            libr.addNovel(arrayPosition);
-            arrayPosition++;
-        }
+    
 	
     }
-    }
 }
+
 
 class Book {
 	private String name; 
@@ -101,8 +157,6 @@ class Book {
 	
 
 }
-
-
 class ArtAlbum extends Book {
 	String paperQuality;
 	
@@ -115,6 +169,4 @@ class ArtAlbum extends Book {
 	}
 	
 
-	
-}
 }
