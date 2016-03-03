@@ -1,113 +1,89 @@
 import java.util.Scanner;
-
 public class Library {
-	
-    private Novel [] novels = new Novel[100];
-    private ArtAlbum [] artAlbums = new ArtAlbum[100];
-    private int indexNovel = 0;
-    private int indexArtAlbum = 0;
-        
 
+	private Book [] books = new Book[200];
+    private int indexBook = 0;
+         
 
     public void makeDecision(){
-        System.out.println("What do you want to do? (add book/delete book/list books) ");
-        Scanner keyboard = new Scanner(System.in);
-        String input = keyboard.nextLine();
-        if (input.equals("add book")) {
-            typeOfBook();
-        }
-
-        if (input.equals("delete book")){
-            System.out.println("What type of book do you want to delete? (novel/art album)");
-            input = keyboard.nextLine();
-            if(input.equals("novel")){
-                System.out.println("Enter the title of the novel you want to delete: ");
-                input = keyboard.nextLine();
-                int indexFound = findNovel(input);
-                //System.out.println("Index found is: "+indexFound);
-                if (indexFound!=-1) {
-                    deleteNovel(indexFound);
-                }
-            }
-            if (input.equals("art album")){
-                System.out.println("Enter the title of the art album you want to delete: ");
-                input = keyboard.nextLine();
-                int indexFound = findArtAlbum(input);
-                //System.out.println("Index found is: "+indexFound);
-                if (indexFound!=-1) {
-                    deleteArtAlbum(indexFound);
-                }
-            }
-        }
-
-        if (input.equals("list books")){
-                listBooks(); 
-        }
+    	boolean goOn = true;
+    	do{
+	        System.out.println("What do you want to do? (add book/delete book/list books/exit) ");
+	        Scanner keyboard = new Scanner(System.in);
+	        String input = keyboard.nextLine();
+			
+			if (input.equals("add book")) {
+	            typeOfBook();
+	        }
+	
+	        if (input.equals("delete book")){
+	                System.out.println("Enter the title of the book you want to delete: ");
+	                input = keyboard.nextLine();
+	                int indexFound = findBook(input);
+	                //System.out.println("Index found is: "+indexFound);
+	                if (indexFound!=-1) {
+	                    deleteBook(indexFound);
+	                }
+	        }
+	        
+	        if (input.equals("list books")){
+	        	System.out.println("What type of books do you want to see? (novels/art albums/all books)");
+	        	input = keyboard.nextLine();
+	        	if (input.equals("novels")){
+	        		listNovels();
+				}
+	        	if (input.equals("art albums")){
+	        		listArtAlbums();
+	        	}
+	        	if (input.equals("all books")){
+	                listBooks(); 
+	        	}
+	        }
+	        
+			if (input.equals("exit")){
+	        	goOn=false;
+	        }
+    	} while (goOn==true);
     }
 
 
-    public int findNovel(String input){
-        for (int i=0; i<indexNovel; i++){
-            if (novels[i].getName().equals(input)){
+    public int findBook(String input){
+        for (int i=0; i<indexBook; i++){
+            if (books[i].getName().equals(input)){
                 return i;
             }
         }
         return -1;
     }
 
-    public void deleteNovel(int indexFound){
-        indexNovel=indexNovel-1;
-        for (int i=indexFound; i<indexNovel; i++){
-            novels[i]=novels[i+1];
+    public void deleteBook(int indexFound){
+        indexBook = indexBook-1;
+        for (int i=indexFound; i<indexBook; i++){
+            books[i] = books[i+1];
         }
-        novels[indexNovel]=null;
+        books[indexBook]=null;
     }
 
-    public int findArtAlbum(String input){
-        for (int i=0; i<indexArtAlbum; i++){
-            if (artAlbums[i].getName().equals(input)){
-                return i;
-            }
+   
+    public void addBook(Book b){
+        if (indexBook <books.length){
+            books[indexBook] = b;
+            indexBook++;
         }
-        return -1;
     }
-
-    public void deleteArtAlbum(int indexFound){
-        indexArtAlbum = indexArtAlbum-1;
-        for (int i=indexFound; i<indexArtAlbum; i++){
-            artAlbums[i] = artAlbums[i+1];
-        }
-        novels[indexNovel]=null;
-    }
-
-    public void addNovel(Novel n){
-        if (indexNovel <novels.length){
-            novels[indexNovel] = n;
-            indexNovel++;
-        }
-
-    }
-
-    public void addArtAlbum(ArtAlbum a){
-        if (indexArtAlbum <artAlbums.length){
-            artAlbums[indexArtAlbum] = a;
-            indexArtAlbum++;
-        }
-
-    }
-
+    
     public void typeOfBook() {
 
         Scanner keyboard = new Scanner(System.in);
         System.out.print("Is it a novel or an art album? ");
             String input = keyboard.nextLine();
             if (input.contains("novel")){
-               Novel n = readNovel();
-               addNovel(n);
+               Book b = readNovel();
+               addBook(b);
             }
             else if (input.contains("art album")){
-                     ArtAlbum a = readArtAlbum();
-                     addArtAlbum(a);
+                     Book b = readArtAlbum();
+                     addBook(b);
                 }
             else {
                 System.out.println("It has to be a novel or an art album");
@@ -115,7 +91,7 @@ public class Library {
             }
     }
 
-    public Novel readNovel(){
+    public Book readNovel(){
         Scanner reader = new Scanner(System.in);
 
         System.out.print("Enter the name of the novel: ");
@@ -127,11 +103,11 @@ public class Library {
         System.out.print("Enter the type of the novel: ");
         String typeOfNovel = reader.nextLine();
 
-        Novel n = new Novel(nameOfNovel, nrOfPages, typeOfNovel);
-        return n;
+        Book b = new Novel(nameOfNovel, nrOfPages, typeOfNovel);
+        return b;
     }
     
-    public ArtAlbum readArtAlbum(){
+    public Book readArtAlbum(){
         Scanner reader = new Scanner(System.in);
 
         System.out.print("Enter the name of the art album: ");
@@ -143,69 +119,85 @@ public class Library {
         System.out.print("Enter the paper quality of the art album: ");
         String qualityOfPaper = reader.nextLine();
 
-        ArtAlbum a = new ArtAlbum(nameOfAlbum, nrOfPages, qualityOfPaper);
-        return a;
+        Book b = new ArtAlbum(nameOfAlbum, nrOfPages, qualityOfPaper);
+        return b;
     }
-
+    
+    
+    //Method listBooks prints books in the order that books are kept in the array
     public void listBooks(){
-        System.out.println("What type of books do you want to see?(novels/art albums) ");
-            Scanner reader = new Scanner (System.in);
-            String input = reader.nextLine();
-            if (input.contains("novels")){
-                listNovels();
+        System.out.println("All books in the library ");
+        for (int i=0; i<indexBook; i++){
+        	if (books[i] instanceof Novel){
+        		printNovel(books[i]);
+        		
             }
-            else if (input.contains("art albums")){
-                listArtAlbums();
-            }
+        	if (books[i] instanceof ArtAlbum){
+        		printArtAlbum(books[i]);
+        	}
+        }
     }
+    
+    public void printNovel(Book b){
+    	Novel n = (Novel) b;
+    	System.out.println(n.getName()+" "+n.getNrPages()+" pages "+ n.getType());
+    }
+    
+    public void printArtAlbum(Book b){
+    	ArtAlbum a = (ArtAlbum) b;
+    	System.out.println(a.getName()+" "+ a.getNrPages()+" pages "+ a.getPaperQuality());
+	}
+            
     public void listNovels(){
         System.out.println("The library contains the following novels: ");
-        for (int i=0; i<indexNovel; i++){
-            System.out.println(novels[i].getName()+" "+novels[i].getNrPages()+" pages "+novels[i].getType() );
+        for (int i=0; i<indexBook; i++){
+            if (books[i] instanceof Novel){
+            	printNovel(books[i]);
+            }
         }
     }
 
     public void listArtAlbums(){
         System.out.println("The library contains the following art albums: ");
-        for (int i=0; i<indexArtAlbum; i++){
-            System.out.println(artAlbums[i].getName()+" "+artAlbums[i].getNrPages()+" pages "+artAlbums[i].getPaperQuality());
+        for (int i=0; i<indexBook; i++){
+            if (books[i] instanceof ArtAlbum){
+            	printArtAlbum(books[i]);
+            }
         }
     }
 
-    public void populateArrays(){
-        Novel novel1 = new Novel("Walden", 235, "fiction");
-        addNovel(novel1);
+    public void populateArray(){
+        Book novel1 = new Novel("Walden", 235, "fiction");
+        addBook(novel1);
 
-        Novel novel2 = new Novel("Harry Potter: Prisoner of Azkaban", 556, "fantasy");
-        addNovel(novel2);
+        Book novel2 = new Novel("Harry Potter: Prisoner of Azkaban", 556, "fantasy");
+        addBook(novel2);
 
-        Novel novel3 = new Novel("1984", 242, "fiction");
-        addNovel(novel3);
+        Book album1 = new ArtAlbum("Monet", 147, "high-quality");
+        addBook(album1);
+        
+        Book album2 = new ArtAlbum("History of photography", 490, "high-quality");
+        addBook(album2);
+        
+        Book novel3 = new Novel("1984", 242, "fiction");
+        addBook(novel3);
 
-        Novel novel4 = new Novel("The Shining", 150, "horror");
-        addNovel(novel4);
+        Book novel4 = new Novel("The Shining", 150, "horror");
+        addBook(novel4);
 
-        ArtAlbum album1 = new ArtAlbum("Monet", 147, "high-quality");
-        addArtAlbum(album1);
-
-        ArtAlbum album2 = new ArtAlbum("History of photography", 490, "high-quality");
-        addArtAlbum(album2);
-
-        ArtAlbum album3 = new ArtAlbum("The works of Jackson Pollock", 67, "medium-quality");
-        addArtAlbum(album3);
+        Book album3 = new ArtAlbum("The works of Jackson Pollock", 67, "medium-quality");
+        addBook(album3);
     }
 
     public static void main (String [] args){
 
         Library libr = new Library();
-        libr.populateArrays();
-        libr.listBooks();
+        libr.populateArray();
         libr.makeDecision();
-        libr.listNovels();
-        libr.listArtAlbums();
-
+                	
     }
 }
+    
 
 class Book {
 	private String name; 
@@ -225,7 +217,7 @@ class Book {
 	}
 	
 	public void setNrPages(int newNrPages){
-		nrPages = newNrPages;
+		this.nrPages = newNrPages;
 	}
 	public int getNrPages(){
 		return nrPages;
@@ -242,7 +234,7 @@ class Book {
 	} 
 	
 	public void setType(String newType){
-		type = newType;
+		this.type = newType;
 	}
 	
 	public String getType(){
@@ -258,12 +250,13 @@ class ArtAlbum extends Book {
 		this.paperQuality=paperQuality;
 	}
         
-        public void setPaperQuality(String newPaperQuality){
-            paperQuality = newPaperQuality;
-        }
+    public void setPaperQuality(String newPaperQuality){
+        this.paperQuality = newPaperQuality;
+    }
         
-        public String getPaperQuality(){
-            return paperQuality;
-        }
+    public String getPaperQuality(){
+        return paperQuality;
+    }
 	
+
 }
