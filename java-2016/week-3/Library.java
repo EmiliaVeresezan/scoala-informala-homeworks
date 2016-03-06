@@ -4,6 +4,7 @@ public class Library {
 	private static final int NO_INDEX = -1;
 	private Book [] books = new Book[100];
     private int indexBook = 0;
+	private Book [] booksFound = new Book[100];
          
 
     public void makeDecision(){
@@ -20,14 +21,27 @@ public class Library {
 	        if (input.equals("delete book")){
 	            System.out.println("Enter the title of the book you want to delete: ");
 	            input = keyboard.nextLine();
-	            int indexFound = findBook(input);
-	            if (indexFound==NO_INDEX) {
-					System.out.println("This book is not in the library.");
+	            
+				int size = findBook(input);
+				
+				if (size == 0){
+					System.out.println("No books with the title "+ input +" have been found.");
+				}
+				if (size==1){
+					deleteBook(booksFound[0]);
 				}
 				else {
-					deleteBook(indexFound);
-				}       
-	        }
+					System.out.println("The following books with the title " + input + " have been found: ");
+					for (int i=0; i<size;i++){
+						System.out.print((i+1)+". ");
+						printBook(booksFound[i]);
+					}
+					System.out.println("Which book do you want to delete? Please enter a number");
+					input = keyboard.nextLine();
+					int nrOfBook = Integer.parseInt(input);
+					deleteBook(booksFound[nrOfBook-1]);
+				}
+			}
 	    
 	        
 	        if (input.equals("list books")){
@@ -51,43 +65,52 @@ public class Library {
     }
 
 
+    //Method findBooks returns the number of books with the title input.
     public int findBook(String input){
-        for (int i=0; i<indexBook; i++){
+		int count=0;
+		for (int i=0; i<indexBook; i++){
             if (books[i].getName().equals(input)){
-                return i;
-            }
+                booksFound[count]=books[i];
+				count++;
+	        }
         }
-        return NO_INDEX;
+		return count;
     }
+	
+	public int indexOf(Book b){
+		for (int i=0; i<indexBook; i++){
+			if (books[i].equals(b)){
+				return i;
+			}
+		}
+		return NO_INDEX;
+		
+	}
 
-    public void deleteBook(int indexFound){
-        indexBook = indexBook-1;
-        for (int i=indexFound; i<indexBook; i++){
+    public void deleteBook(Book book){
+        
+		indexBook = indexBook-1;
+        for (int i=indexOf(book); i<indexBook; i++){
             books[i] = books[i+1];
         }
         books[indexBook]=null;
     }
-
    
     public void addBook(Book b){
 		
 		if (indexBook < books.length){
 			for (int i=0; i<indexBook; i++){
 				if (books[i].equals(b)){
+					printBook(books[i]);
+					printBook(b);
 					System.out.println("The book can already be found in the library.");
 					return;	
 				}
 			}
-				books[indexBook] = b;
-				indexBook++;
-				
-			
+			books[indexBook] = b;
+			indexBook++;			
 		}
-		else {
-			System.out.println("The library is full.");
-		}
-		
-    }
+	}
     
     public void typeOfBook() {
 
@@ -145,45 +168,41 @@ public class Library {
     public void listBooks(){
         System.out.println("All books in the library ");
         for (int i=0; i<indexBook; i++){
-        	if (books[i] instanceof Novel){
-        		printNovel(books[i]);
-        		
-            }
-        	if (books[i] instanceof ArtAlbum){
-        		printArtAlbum(books[i]);
-        	}
+				printBook(books[i]);
         }
-    }
-    
-    public void printNovel(Book b){
-    	Novel n = (Novel) b;
-    	System.out.println(n.getName()+" "+n.getNrPages()+" pages "+ n.getType());
-    }
-    
-    public void printArtAlbum(Book b){
-    	ArtAlbum a = (ArtAlbum) b;
-    	System.out.println(a.getName()+" "+ a.getNrPages()+" pages "+ a.getPaperQuality());
 	}
+        
+    public void printBook(Book b){
+    	if (b instanceof Novel) {
+			Novel n = (Novel) b;
+			System.out.println(n.getName()+" "+n.getNrPages()+" pages "+ n.getType());
+		}
+		if (b instanceof ArtAlbum){
+			ArtAlbum a = (ArtAlbum) b;
+			System.out.println(a.getName()+" "+ a.getNrPages()+" pages "+ a.getPaperQuality());
+		}
+	}
+    
             
     public void listNovels(){
         System.out.println("The library contains the following novels: ");
         for (int i=0; i<indexBook; i++){
-            if (books[i] instanceof Novel){
-            	printNovel(books[i]);
-            }
-        }
+			if (books[i] instanceof Novel){
+            	printBook(books[i]);
+			}
+		}
     }
 
     public void listArtAlbums(){
         System.out.println("The library contains the following art albums: ");
         for (int i=0; i<indexBook; i++){
-            if (books[i] instanceof ArtAlbum){
-            	printArtAlbum(books[i]);
-            }
-        }
+			if(books[i] instanceof ArtAlbum){
+            printBook(books[i]);
+			}
+		}
     }
 
-    public void populateArray(){
+    public void populateLibrary(){
         Book novel1 = new Novel("Walden", 235, "fiction");
         addBook(novel1);
 
@@ -209,7 +228,7 @@ public class Library {
     public static void main (String [] args){
 
         Library libr = new Library();
-        libr.populateArray();
+        libr.populateLibrary();
         libr.makeDecision();
                 	
     }
@@ -252,9 +271,10 @@ class Book {
 		
 		Book book = (Book) o;
 		
-		if (name != null ? !name.equals(book.name) : book.name != null) {
-          return false;
-        }
+		if ((name.equals(book.name)==false)){
+			return false; 
+		}
+		
 		
 		if (nrPages != book.nrPages) {
           return false;
@@ -292,7 +312,8 @@ class Book {
 		
 		Novel novel = (Novel) o;
 		
-		if (type != null ? !type.equals(novel.type) : novel.type != null) {
+		
+		if (!(type.equals(novel.type))) {
           return false;
         }
 		
@@ -327,7 +348,8 @@ class ArtAlbum extends Book {
 		
 		ArtAlbum artAlbum = (ArtAlbum) o;
 		
-		if (paperQuality != null ? !paperQuality.equals(artAlbum.paperQuality) : artAlbum.paperQuality != null) {
+		
+		if (!(paperQuality.equals(artAlbum.paperQuality))) {
           return false;
         }
 		
