@@ -1,7 +1,8 @@
 import java.util.Scanner;
 public class Library {
-
-	private Book [] books = new Book[200];
+	
+	private static final int NO_INDEX = -1;
+	private Book [] books = new Book[100];
     private int indexBook = 0;
          
 
@@ -17,14 +18,17 @@ public class Library {
 	        }
 	
 	        if (input.equals("delete book")){
-	                System.out.println("Enter the title of the book you want to delete: ");
-	                input = keyboard.nextLine();
-	                int indexFound = findBook(input);
-	                //System.out.println("Index found is: "+indexFound);
-	                if (indexFound!=-1) {
-	                    deleteBook(indexFound);
-	                }
+	            System.out.println("Enter the title of the book you want to delete: ");
+	            input = keyboard.nextLine();
+	            int indexFound = findBook(input);
+	            if (indexFound==NO_INDEX) {
+					System.out.println("This book is not in the library.");
+				}
+				else {
+					deleteBook(indexFound);
+				}       
 	        }
+	    
 	        
 	        if (input.equals("list books")){
 	        	System.out.println("What type of books do you want to see? (novels/art albums/all books)");
@@ -53,7 +57,7 @@ public class Library {
                 return i;
             }
         }
-        return -1;
+        return NO_INDEX;
     }
 
     public void deleteBook(int indexFound){
@@ -66,10 +70,23 @@ public class Library {
 
    
     public void addBook(Book b){
-        if (indexBook <books.length){
-            books[indexBook] = b;
-            indexBook++;
-        }
+		
+		if (indexBook < books.length){
+			for (int i=0; i<indexBook; i++){
+				if (books[i].equals(b)){
+					System.out.println("The book can already be found in the library.");
+					return;	
+				}
+			}
+				books[indexBook] = b;
+				indexBook++;
+				
+			
+		}
+		else {
+			System.out.println("The library is full.");
+		}
+		
     }
     
     public void typeOfBook() {
@@ -179,7 +196,7 @@ public class Library {
         Book album2 = new ArtAlbum("History of photography", 490, "high-quality");
         addBook(album2);
         
-        Book novel3 = new Novel("1984", 242, "fiction");
+        Book novel3 = new Novel("1984",242, "fiction");
         addBook(novel3);
 
         Book novel4 = new Novel("The Shining", 150, "horror");
@@ -222,8 +239,30 @@ class Book {
 	public int getNrPages(){
 		return nrPages;
 	}
+	
+	@Override
+	 public boolean equals(Object o) {
+        if (this == o) {
+          return true;
+        }
+		
+        if (!(o instanceof Book)) {
+          return false;
+        }
+		
+		Book book = (Book) o;
+		
+		if (name != null ? !name.equals(book.name) : book.name != null) {
+          return false;
+        }
+		
+		if (nrPages != book.nrPages) {
+          return false;
+        }
+		
+		return true;
+    }
 }
-
 
  class Novel extends Book {
 	private String type;
@@ -240,6 +279,25 @@ class Book {
 	public String getType(){
 		return type;
 	}
+	
+	@Override
+	 public boolean equals(Object o) {
+        if (this == o) {
+          return true;
+        }
+		
+        if (!(o instanceof Novel)) {
+          return false;
+        }
+		
+		Novel novel = (Novel) o;
+		
+		if (type != null ? !type.equals(novel.type) : novel.type != null) {
+          return false;
+        }
+		
+		return true;
+    }
 }
 
 class ArtAlbum extends Book {
@@ -256,6 +314,24 @@ class ArtAlbum extends Book {
         
     public String getPaperQuality(){
         return paperQuality;
+    }
+	@Override
+	 public boolean equals(Object o) {
+        if (this == o) {
+          return true;
+        }
+		
+        if (!(o instanceof ArtAlbum)) {
+          return false;
+        }
+		
+		ArtAlbum artAlbum = (ArtAlbum) o;
+		
+		if (paperQuality != null ? !paperQuality.equals(artAlbum.paperQuality) : artAlbum.paperQuality != null) {
+          return false;
+        }
+		
+		return true;
     }
 	
 
