@@ -15,6 +15,9 @@ public class Library {
 	        String input = keyboard.nextLine();
 			
 			if (input.equals("add book")) {
+                /* TODO - CODE REVIEW - You should use a more descriptive name, that hints at the desired action 
+                like: iquireBookType() or askBookType()
+                */
 	            typeOfBook();
 	        }
 	
@@ -113,7 +116,21 @@ public class Library {
 	}
     
     public void typeOfBook() {
-
+        /* TODO - CODE REVIEW - This method is linked to adding a book.
+        Let's say you'd want to use it in a search for example, you would need to change it.
+        
+        A better design would have been:
+        typeOfBook returns the type of book and in the makeDecision() method you could have writtem:
+        String bookType = inquireBookType();
+        if (bookType.contains("novel")){
+               Book b = readNovel();
+               addBook(b);
+        }
+        else if (input.contains("art album")){
+                Book b = readArtAlbum();
+                addBook(b);
+        }
+        */
         Scanner keyboard = new Scanner(System.in);
         System.out.print("Is it a novel or an art album? ");
             String input = keyboard.nextLine();
