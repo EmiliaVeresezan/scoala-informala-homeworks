@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -85,6 +86,9 @@ public class CustomerTest {
 		Book book =  createNewBook("About Photography", "fiction", "Susan Sontag", 546300, 30.00);
 		int quantity = 2;
 		assertTrue(findBook(book,quantity));
+		book =  createNewBook("War and peace", "fiction", "Lev Tolstoy", 200111, 45.00);
+		quantity = 3;
+		assertFalse(findBook(book, quantity));
 	}
 	
 	private boolean findBook(Book book, int quantity){
@@ -100,6 +104,29 @@ public class CustomerTest {
 			}
 		}
 		return found;
+	}
+	
+	
+	@After
+	public void destroyCustomerList(){
+		customerList = null;
+	}
+	
+	@After
+	public void destroyStockList(){
+		stocks = null;
+	}
+
+	@After
+	public void destroyCart(){
+		cart = null;
+	}
+	
+	@After
+	public void destroyCartEntries(){
+		cartEntry1 = null;
+		cartEntry2 = null;
+
 	}
 
 	
