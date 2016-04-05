@@ -65,6 +65,7 @@ public class CancelBookingTest {
 		cancelBooking(booking);
 		
 	}
+	
 	/**
 	 * Tests whether the size of the lists bookings and periods has been decreased. 
 	 */
@@ -84,8 +85,20 @@ public class CancelBookingTest {
 		assertEquals(AccommodationType.ROYAL, bookings.get(0).getRoom().getType());
 		assertEquals(BedType.QUEEN_SIZE, bookings.get(0).getRoom().getBedType());
 		assertEquals(80, bookings.get(0).getRoom().getFair().getValue(),0);
-		assertEquals(getDate(2016,9,9), bookings.get(0).getBookingPeriod().getFrom());
-		assertEquals(getDate(2016,9,12), bookings.get(0).getBookingPeriod().getTo());
+		assertEquals(getDate(2016, 9, 9), bookings.get(0).getBookingPeriod().getFrom());
+		assertEquals(getDate(2016, 9, 12), bookings.get(0).getBookingPeriod().getTo());
+	}
+	
+	/**
+	 * Tests behavior of the app when there is an attempt to cancel an non-existant booking.
+	 * This is an unexpected input situation.
+	 * I'm not sure if this qualifies as a negative flow test or as a programming mistake.
+	 * The program will throw and IndexOutOfBoundsException
+	 */
+	@Test
+	public void cancelUnexistingBookingTest() {
+		Booking booking = bookings.get(5);
+		cancelBooking(booking);
 	}
 	
 	/**
