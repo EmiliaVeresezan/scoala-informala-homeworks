@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,6 +33,7 @@ public class CancelBookingTest {
 	 * The rooms are represented as Accommodation objects, periods are represented as Period objects, and bookings are represented as Booking objects.
 	 * A Booking object is composed of an Accommodation object and a Period object. Therefore, a room can be associated with multiple booking periods by creating
 	 * multiple Booking objects. 
+	 * A booking is cancelled by using the method cancelBooking(Booking booking);
 	 */	
 	@Before
 	public void init() {
@@ -62,8 +64,6 @@ public class CancelBookingTest {
 		Booking booking = bookings.get(0);
 		cancelBooking(booking);
 		
-		
-		
 	}
 	/**
 	 * Tests whether the size of the lists bookings and periods has been decreased. 
@@ -86,7 +86,6 @@ public class CancelBookingTest {
 		assertEquals(80, bookings.get(0).getRoom().getFair().getValue(),0);
 		assertEquals(getDate(2016,9,9), bookings.get(0).getBookingPeriod().getFrom());
 		assertEquals(getDate(2016,9,12), bookings.get(0).getBookingPeriod().getTo());
-		
 	}
 	
 	/**
@@ -104,7 +103,12 @@ public class CancelBookingTest {
 		}
 	}
 	
-	
+	@After
+	public void destroy (){
+		rooms = null;
+		periods = null;
+		bookings = null;
+	}
 	
 	/**
 	 * Creates a new instance of Accommodation.

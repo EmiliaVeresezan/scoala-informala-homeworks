@@ -34,6 +34,8 @@ public class ViewBookingTest {
 	 * The rooms are represented as Accommodation objects, periods are represented as Period objects, and bookings are represented as Booking objects.
 	 * A Booking object is composed of an Accommodation object and a Period object. Therefore, a room can be associated with multiple booking periods by creating
 	 * multiple Booking objects. 
+	 * 
+	 * The booking to be tested is added using the method addAccommodationTypeByPeriod(AccommodationType type, Date from, Date to)
 	 */
 	@Before
 	public void init() {
