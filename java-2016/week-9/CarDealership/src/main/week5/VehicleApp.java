@@ -48,11 +48,11 @@ public class VehicleApp {
 
 		float availableFuel = car.getAvailableFuel(); // this value must be smaller than the initial value passed in the constructor
 
-		System.out.println("Available fuel after "+car.getDrivenKm()+" km for " +car.toString() + ": "+ availableFuel);
+		System.out.println("Available fuel: "+ availableFuel);
 		
 		float fuelConsumedPer100Km = car.getAverageFuelConsumption();
 		
-		System.out.println("Fuel consumed per 100 km for "+ car.toString()+ ": "+ fuelConsumedPer100Km);
+		System.out.println("Fuel consumed per 100 km: "+ fuelConsumedPer100Km);
 
 
 		Vehicle vehicle = new Golf(30, "1987ddkshik289"); //available fuel and chasse number
@@ -67,11 +67,11 @@ public class VehicleApp {
 
 		availableFuel = car2.getAvailableFuel();
 		
-		System.out.println("Available fuel after "+car2.getDrivenKm()+" km for " +car2.toString() + ": "+ availableFuel);
+		System.out.println("Available fuel: "+ availableFuel);
 
 		fuelConsumedPer100Km = car2.getAverageFuelConsumption();
 		
-		System.out.println("Fuel consumed per 100 km for "+ car2.toString()+ ": " + fuelConsumedPer100Km);
+		System.out.println("Fuel consumed per 100 km: " + fuelConsumedPer100Km);
 
 	}
 
