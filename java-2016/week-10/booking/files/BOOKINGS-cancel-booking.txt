@@ -1,0 +1,1 @@
+room2, ROYAL, 2, 80.0, LOW, Fri Sep 09 00:00:00 EEST 2016, Mon Sep 12 00:00:00 EEST 2016
