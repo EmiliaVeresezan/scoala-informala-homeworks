@@ -21,38 +21,43 @@ public class ClientTest {
 	
 	@Before
 	public void init() {
-		bankAccount = new BankAccount(50000);
-		client = new Client("Elena Pop", bankAccount);
-		
+			
 	}
 	
-	/**
-	*Tests that the method decreaseBankAccountSum(Double sum) works correctly.
-	*/
 	@Test
-	public void decreaseBankAccountSumTest(){
-		client.decreaseBankAccountSum(10000.0);
-		assertEquals(40000, bankAccount.getAccountSum(),0.001);
+	public void testGetBankAccount() throws BankAccountNotFoundException{
+		//given
+		TestBankAccount bankAccount = new TestBankAccount("RO836934174", 2000.0f); 
+		Client client = new Client("222222", "Jane", "Fericirii 32" );
+		client.setBankAccount(bankAccount);
+		//when
+		BankAccount retrievedAccount = client.getBankAccount();
+		//then
+		assertNotNull(retrievedAccount);
 	}
 	
-	/**
-	 * Tests that the method increaseBankAccountSum(float amount) updates the bank account
-	 * if a bank account exists for the caller.
-	 * Throws an exception if the client does not have a bank account.
-	 */
-	@Test
-	public void increaseBankAccountSumTest(){
-		try{
-		client.increaseBankAccountSum(1000.0f);
-		} catch(BankAccountNotFoundException ex){
-			assertEquals(51000, bankAccount.getAccountSum(),0.001);
-		}
-		
+	@Test (expected = BankAccountNotFoundException.class)
+	public void testGetBankAccountWhenNoBankAccountExists() throws BankAccountNotFoundException{
+		//given
+		Client client = new Client("222222", "Jane", "Fericirii 32" );
+		//when
+		BankAccount retrievedAccount = client.getBankAccount();
+		//then
+		fail("Exception should have been thrown.");
 	}
-		
+	
 	@After
 	public void destroy(){
-		client = null;
-		bankAccount = null;
+	}
+	
+	private static class TestBankAccount extends BankAccount {
+
+		public TestBankAccount(String iban, float balance) {
+			super(iban, balance);
+		}
+
+		private float getBalance() {
+			return balance;
+		}
 	}
 }

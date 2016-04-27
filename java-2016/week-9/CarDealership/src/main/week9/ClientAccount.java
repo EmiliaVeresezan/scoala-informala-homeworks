@@ -16,82 +16,56 @@ import week5.Car;
  */
 public class ClientAccount {
 	
-	private Client client;
-	private List<Car> myFleet = new ArrayList<Car>();
+	private String clientName;
+	private List<Car> clientCarList = new ArrayList<>();
+
+	public ClientAccount(String clientName) {
+		super();
+		this.clientName = clientName;
+	}
 	
-	public ClientAccount() {
-		
+	public void addCarToFleet(Car car) {
+		clientCarList.add(car);
 	}
 
-	/**
-	 * Creates a ClientAccount object by taking a reference to a client. 
-	 * @param client reference to a Client object
-	 */
-	public ClientAccount(Client client) {
-		this.client = client;
+	public List<Car> getFleet() {
+		return new ArrayList<Car>(clientCarList);
 	}
 	
-	/**
-	 * Adds a Car object to the list of cars the client has bought from the dealership.
-	 * @param car  the car to be added
-	 * @see Car
-	 */
-	public void addCarToFleet(Car car){
-		myFleet.add(car);
+	//this method should only be used by the car dealership internally
+	void removeCarFromFleet(Car car){
+		clientCarList.remove(car);
 	}
 	
-	/**
-	 * Removes the car passed as parameter from the client account's fleet inventory.
-	 * @param car
-	 */
-	public void removeCarFromFleet(Car car) {
-		myFleet.remove(car);
+	public String getClientName() {
+		return clientName;
 	}
 	
-	/**
-	 * Prints the cars found in myFleet inventory
-	 */
-	public void listCars() {
-		for (Car c : myFleet){
-			System.out.println(c.toString());
-		}
-	}
-	
-	/**
-	 * Checks whether a car, passed as parameter, is already in the fleet inventory.
-	 * @param car  a reference to the the car object
-	 * @return true if the car is already in the fleet, returns false otherwise.
-	 */
-	public boolean isCarInFleet(Car car){
-		if (myFleet.contains(car)){
-			return true;
-		}
-		return false;
-	}
-	
-	public List<Car> getMyFleet() {
-		return myFleet;
-	}
-	
-	public List<Car> myFleet(){
-		return this.myFleet;
-	}
-
-	
-	public Client getClient() {
-		return client;
-	}
-
-	public void setClient(Client client) {
-		this.client = client;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((clientName == null) ? 0 : clientName.hashCode());
+		return result;
 	}
 
 	@Override
-	public String toString() {
-		return "ClientAccount [client=" + client + ", myFleet=" + myFleet + "]";
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ClientAccount other = (ClientAccount) obj;
+		if (clientName == null) {
+			if (other.clientName != null)
+				return false;
+		} else if (!clientName.equals(other.clientName))
+			return false;
+		return true;
 	}
 
-	
 	/**
 	 * This method takes an AgeComparator object as parameter and sorts the list it is applied to
 	 * in ascending order, using the comparator criteria.
@@ -99,8 +73,8 @@ public class ClientAccount {
 	 * @return   the sorted list
 	 */
 	public List<Car> myFleet(AgeComparator SORT_BY_AGE) {
-		Collections.sort(this.myFleet, SORT_BY_AGE);
-		return this.myFleet;
+		Collections.sort(this.clientCarList, SORT_BY_AGE);
+		return this.clientCarList;
 	}
 	
 	/**
@@ -110,13 +84,12 @@ public class ClientAccount {
 	 * @return   the sorted list
 	 */
 	public List<Car> myFleet(FuelEfficiencyComparator SORT_BY_FUEL_EFF){
-		Collections.sort(this.myFleet, SORT_BY_FUEL_EFF);
-		return this.myFleet;
+		Collections.sort(this.clientCarList, SORT_BY_FUEL_EFF);
+		return this.clientCarList;
 	}
-	
-	
+
 	/**
-	 * This class implements the Comparator interface for type Car,
+	 * Implements the Comparator interface for type Car,
 	 * and establishes order of objects based on the car's production year.
 	 * which also implements the Comparable interface. 
 	 * @author emiliaveresezan
@@ -135,9 +108,8 @@ public class ClientAccount {
 		}
 	}
 	
-	
 	/**
-	 * This class implements the Comparator interface for type Car,
+	 * Implements the Comparator interface for type Car,
 	 * and establishes order of objects based on a car's fuel efficiency. 
 	 * @author emiliaveresezan
 	 *
@@ -160,5 +132,5 @@ public class ClientAccount {
 			return car1FuelEff.compareTo(car2FuelEff);
 		}
 	}
-
+	
 }
