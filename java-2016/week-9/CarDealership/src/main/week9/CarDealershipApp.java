@@ -68,7 +68,10 @@ public class CarDealershipApp {
 		 // fleet should not contain the sold car. 
 		} catch (BankAccountNotFoundException e){
 			 System.out.println(e.getMessage());
+		} catch (TransactionCannotTakePlaceException ex){
+			System.out.println(ex.getMessage());
 		}
+		
 		
 		System.out.println("List of cars in the clien't fleet, after oldest car was sold");
 		for (Car c: myCars){

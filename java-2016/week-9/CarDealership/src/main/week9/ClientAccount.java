@@ -9,7 +9,7 @@ import week5.Car;
 
 /**
  * Represents the client account that a dealership creates for each client. 
- * Holds a reference to the client and a list of cars the client has bought from the dealership.
+ * Holds the name of the client and a list of cars the client has bought from the dealership.
  * @see Client, CarDealership
  * @author Emilia
  *
@@ -28,11 +28,18 @@ public class ClientAccount {
 		clientCarList.add(car);
 	}
 
+	/**
+	 * Makes a copy of the internal car inventory of ClientAccount and returns it
+	 * @return copy of client's fleet.
+	 */
 	public List<Car> getFleet() {
 		return new ArrayList<Car>(clientCarList);
 	}
 	
-	//this method should only be used by the car dealership internally
+	/**
+	 * Removes the car passed as parameter form the internal car inventory the ClientAccount keeps.
+	 * @param car  the car to be removed
+	 */
 	void removeCarFromFleet(Car car){
 		clientCarList.remove(car);
 	}

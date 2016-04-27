@@ -82,7 +82,7 @@ public class TestCarDealershipFlows {
 	}
 	
 	@Test
-	public void testBuyCarFromClientWithCarInFleetSuccessfulFlow() throws InsufficientFundsException, BankAccountNotFoundException {
+	public void testBuyCarFromClientWithCarInFleetSuccessfulFlow() throws InsufficientFundsException, BankAccountNotFoundException, TransactionCannotTakePlaceException {
 		//given 
 		CarDealership carDealership = new CarDealership("compexit");
 		Client client = new Client("666", "Jack", "Florilor 33");
@@ -108,7 +108,7 @@ public class TestCarDealershipFlows {
 	}
 	
 	@Test
-	public void testBuyCarFromClientWithClientAccountButCarNotInFleetSuccessfulFlow() throws InsufficientFundsException, BankAccountNotFoundException {
+	public void testBuyCarFromClientWithClientAccountButCarNotInFleetSuccessfulFlow() throws InsufficientFundsException, BankAccountNotFoundException, TransactionCannotTakePlaceException {
 		//given 
 		CarDealership carDealership = new CarDealership("compexit");
 		Client client = new Client("666", "Jack", "Florilor 33");
@@ -133,7 +133,7 @@ public class TestCarDealershipFlows {
 	}
 
 	@Test
-	public void testBuyCarFromClientWithoutClientAccountSuccessfulFlow() throws InsufficientFundsException, BankAccountNotFoundException {
+	public void testBuyCarFromClientWithoutClientAccountSuccessfulFlow() throws InsufficientFundsException, BankAccountNotFoundException, TransactionCannotTakePlaceException {
 		//given 
 		CarDealership carDealership = new CarDealership("compexit");
 		Client client = new Client("666", "Jack", "Florilor 33");
@@ -158,8 +158,8 @@ public class TestCarDealershipFlows {
 	//The InsufficientFundsException is caught in the buyCarFromClient method 
 	//because when the dealership does not have enough money the delaership is supposed 
 	//to be notified, not the client
-	@Test
-	public void whenNotEnoughtMoneyCarBuyingFails() throws BankAccountNotFoundException  {
+	@Test (expected = TransactionCannotTakePlaceException.class)
+	public void whenNotEnoughtMoneyCarBuyingFails() throws BankAccountNotFoundException, TransactionCannotTakePlaceException  {
 		// given
 		CarDealership carDealership = new CarDealership("compexit");
 		Client client = new Client("666", "Jack", "Florilor 33");
@@ -171,15 +171,11 @@ public class TestCarDealershipFlows {
 		Car car = new Golf("jsasa", 2007);
 		carDealership.buyCarFromClient(car, client, 10000);
 		// then
-		assertEquals(0, carDealership.listAllCars().size());
-		assertFalse(carDealership.listAllCars().contains(car));
-		assertEquals(1000, ((TestBankAccount) client.getBankAccount()).getBalance(), 0);
-		assertEquals(1000, carDealershipBankAccount.getBalance(), 0);
-
+		fail("Exception should have been thrown.");
 	}
 	
 	@Test (expected = BankAccountNotFoundException.class)
-	public void whenClientDoesNotHaveABankAccountCarBuyingFails() throws InsufficientFundsException, BankAccountNotFoundException {
+	public void whenClientDoesNotHaveABankAccountCarBuyingFails() throws InsufficientFundsException, BankAccountNotFoundException, TransactionCannotTakePlaceException {
 		// given
 		CarDealership carDealership = new CarDealership("compexit");
 		TestBankAccount carDealershipBankAccount = new TestBankAccount("001", 1000);
