@@ -1,11 +1,11 @@
 package ro.sci.booking;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -34,26 +34,17 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import ro.sci.booking.exception.BookingPeriodValidationException;
-
 /**
  * 
  * Test class for cancel booking functionality.
  * @author Emilia
  *
  */
-public class IOBookingTest {
+public class IOBookingTest extends AbstractBookingTest{
 
-	private String ROOMS_FILE_PATH="/Users/emiliaveresezan/Desktop/Workspace_eclipse/booking/files/rooms-booking-test.txt";
-	private String BOOKING_PERIODS_FILE_PATH="/Users/emiliaveresezan/Desktop/Workspace_eclipse/booking/files/booking-periods.txt";
-	private String BOOKING_FILE_PATH="/Users/emiliaveresezan/Desktop/Workspace_eclipse/booking/files/BOOKINGS-booking-test.txt";
-
-	
-	List<Accommodation> rooms ;
-
-	List<BookingPeriod> periods;
-
-	List<Booking> bookings;
+	private String ROOMS_FILE_PATH = IO_FOLDER + "rooms-booking-test.txt";
+	private String BOOKING_PERIODS_FILE_PATH = IO_FOLDER + "booking-periods.txt";
+	private String BOOKING_FILE_PATH = IO_FOLDER + "BOOKINGS-booking-test.txt";
 
 	/**
 	 * Initializes the components used to test the booking functionality: a list of rooms, a list of time periods and a list of bookings.

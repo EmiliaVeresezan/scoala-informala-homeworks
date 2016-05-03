@@ -32,17 +32,12 @@ import org.junit.Test;
  * @author Emilia
  *
  */
-public class IOViewBookingTest {
+public class IOViewBookingTest extends AbstractBookingTest {
 	
-	private String ROOMS_FILE_PATH="/Users/emiliaveresezan/Desktop/Workspace_eclipse/booking/files/rooms-view-booking.txt";
-	private String BOOKING_PERIODS_FILE_PATH="/Users/emiliaveresezan/Desktop/Workspace_eclipse/booking/files/booking-periods.txt";
-	private String BOOKING_FILE_PATH="/Users/emiliaveresezan/Desktop/Workspace_eclipse/booking/files/BOOKINGS-view-booking.txt";
+	private String ROOMS_FILE_PATH = IO_FOLDER + "rooms-view-booking.txt";
+	private String BOOKING_PERIODS_FILE_PATH = IO_FOLDER + "booking-periods.txt";
+	private String BOOKING_FILE_PATH = IO_FOLDER + "BOOKINGS-view-booking.txt";
 
-	List<Accommodation> rooms;
-
-	List<BookingPeriod> periods;
-
-	List<Booking> bookings;
 	
 	/**
 	 * Initializes the components used to test the functionality: a list of rooms, a list of time periods and a list of bookings.

@@ -33,19 +33,14 @@ import org.junit.Test;
  * @author Emilia
  *
  */
-public class IOCancelBookingTest {
+public class IOCancelBookingTest extends AbstractBookingTest{
 	
 
-	private String ROOMS_FILE_PATH="/Users/emiliaveresezan/Desktop/Workspace_eclipse/booking/files/rooms-cancel-booking.txt";
-	private String BOOKING_PERIODS_FILE_PATH="/Users/emiliaveresezan/Desktop/Workspace_eclipse/booking/files/booking-periods-cancel-booking.txt";
-	private String BOOKING_FILE_PATH="/Users/emiliaveresezan/Desktop/Workspace_eclipse/booking/files/BOOKINGS-cancel-booking.txt";
+	private String ROOMS_FILE_PATH = IO_FOLDER + "rooms-cancel-booking.txt";
+	private String BOOKING_PERIODS_FILE_PATH = IO_FOLDER + "booking-periods-cancel-booking.txt";
+	private String BOOKING_FILE_PATH = IO_FOLDER + "BOOKINGS-cancel-booking.txt";
 	
-	List<Accommodation> rooms;
 
-	List<BookingPeriod> periods;
-
-	List<Booking> bookings;
-	
 	/**
 	 * Initializes the components used to test the functionality: a list of rooms, a list of time periods and a list of bookings.
 	 * The rooms are represented as Accommodation objects, periods are represented as Period objects, and bookings are represented as Booking objects.
