@@ -15,7 +15,7 @@ public class Player2 implements Runnable {
 	@Override
 	public void run() {
 		Random random = new Random();
-		while (gameTable.getGameOver()==false){
+		while (gameTable.isGameOver()==false){
 //			System.out.println("Player "+state+" will make move on position "+position);
 			gameTable.setO(state);
 		}

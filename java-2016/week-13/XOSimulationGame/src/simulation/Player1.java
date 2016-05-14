@@ -14,7 +14,7 @@ public class Player1 implements Runnable{
 
 	@Override
 	public void run() {
-		while (gameTable.getGameOver()==false){
+		while (gameTable.isGameOver()==false){
 //			System.out.println("Player "+state+" will make move on position "+position);
 			gameTable.setX(state);
 		}
