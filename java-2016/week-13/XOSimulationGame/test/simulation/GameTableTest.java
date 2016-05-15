@@ -203,7 +203,7 @@ public class GameTableTest {
 		gameTable.addToMatrix(2,State.O);
 
 		//then
-		assertTrue(gameTable.checkIfGameOver(State.O));
+		assertTrue(gameTable.checkForWin(State.O));
 	}
 	
 }

@@ -8,16 +8,5 @@ public class SimulationApp {
 		Thread player2 = new Thread(new Player2(gameTable));
 		player1.start();
 		player2.start();
-//		try {
-//			player1.join();
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
-//		try {
-//			player2.join();
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
-//		gameTable.prinGrid();
 	}
 }
