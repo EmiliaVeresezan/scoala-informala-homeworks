@@ -255,14 +255,14 @@ public class GameTable {
 	 * @param state  the mark of the player, X or O
 	 * @return the available position in the grid, between 0 and 8(inclusive)
 	 */
-	private synchronized int generateAvailablePosition(State state){
+	private int generateAvailablePosition(State state){
 		Random random = new Random();
 		int tablePosition;
 		do {
 			tablePosition = random.nextInt(9);
 			System.out.println("Generated for " +state +": "+ tablePosition);
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -294,6 +294,8 @@ public class GameTable {
 		return new ArrayList<State>(list);
 	}
 	
+	//Synchronized because I don't want a thread to call isGameOver() 
+	//while another thread is setting the value of gameOver in setX or setO
 	synchronized boolean isGameOver() {
 		return gameOver;
 	}
