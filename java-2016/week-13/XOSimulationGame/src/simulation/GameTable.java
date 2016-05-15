@@ -58,25 +58,27 @@ public class GameTable {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		}		
-		//It's O's turn to make the move
-		XCanMakeMove = false;
-		int position = generateAvailablePosition(state);
-		list.set(position, state);
-		System.out.println("Added "+state+" on position "+position);
-		addToMatrix(position, state);
-		if (checkForWin(state)){
-			gameOver=true;
-			announceWinner(state);
-			return;
+		}			
+		if (gameOver==false){
+			//It's O's turn to make the move
+			XCanMakeMove = false;
+			int position = generateAvailablePosition(state);
+			list.set(position, state);
+			System.out.println("Added "+state+" on position "+position);
+			addToMatrix(position, state);
+			moveCount = moveCount+1;
+			if (checkForWin(state)){
+				gameOver=true;
+				announceWinner(state);
+			}
+			else {
+				if (moveCount==N*N){
+					gameOver=true;
+					announceDraw();
+				}
+			}
+			notifyAll();			
 		}
-		moveCount = moveCount+1;
-		if (moveCount==N*N){
-			gameOver=true;
-			announceDraw();
-			return;
-		}
-		notifyAll();			
 	}
 
 	/**
@@ -95,25 +97,27 @@ public class GameTable {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		}		
-		//It's X's turn to make the move
-		XCanMakeMove = true;
-		int position = generateAvailablePosition(state);
-		list.set(position, state);
-		System.out.println("Added "+state+" on position "+position);
-		addToMatrix(position, state);
-		if (checkForWin(state)){
-			gameOver=true;
-			announceWinner(state);
-			return;
+		}	
+		if (gameOver==false){
+			//It's X's turn to make the move
+			XCanMakeMove = true;
+			int position = generateAvailablePosition(state);
+			list.set(position, state);
+			System.out.println("Added "+state+" on position "+position);
+			addToMatrix(position, state);
+			moveCount = moveCount+1;
+			if (checkForWin(state)){
+				gameOver=true;
+				announceWinner(state);
+			}
+			else {
+				if (moveCount==N*N){
+					gameOver=true;
+					announceDraw();
+				}
+			}
+			notifyAll();			
 		}
-		moveCount = moveCount+1;
-		if (moveCount==N*N){
-			gameOver=true;
-			announceDraw();
-			return;
-		}		
-		notifyAll();			
 	}
 	
 	/**
@@ -277,7 +281,7 @@ public class GameTable {
 	 * 			false otherwise
 	 */
 	boolean checkPositionAvailability(int tablePosition, ArrayList<State> list) {
-		System.out.println("Value for table position "+tablePosition+" is "+list.get(tablePosition));
+		System.out.println("Value for position "+tablePosition+" is "+list.get(tablePosition));
 		if (list.get(tablePosition).equals(State.Blank)){
 			return true;
 		}
@@ -286,11 +290,11 @@ public class GameTable {
 		}
 	}
 	
-	public synchronized ArrayList<State> getList(){
+	public ArrayList<State> getList(){
 		return new ArrayList<State>(list);
 	}
 	
-	boolean isGameOver() {
+	synchronized boolean isGameOver() {
 		return gameOver;
 	}
 	
