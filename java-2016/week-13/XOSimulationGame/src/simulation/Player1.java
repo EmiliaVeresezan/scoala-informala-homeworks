@@ -5,9 +5,9 @@ public class Player1 implements Runnable{
 	private GameTable gameTable;
 	private State state;
 
-	public Player1(GameTable gameTable) {
+	public Player1(GameTable gameTable, State state) {
 		this.gameTable=gameTable;
-		this.state = State.X;
+		this.state = state;
 	}
 
 	@Override

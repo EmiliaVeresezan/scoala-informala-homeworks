@@ -1,19 +1,19 @@
 package simulation;
 
-public class Player2 implements Runnable {
-
+public class Player2 implements Runnable{
+	
 	private GameTable gameTable;
 	private State state;
 
-	public Player2(GameTable gameTable) {
+	public Player2(GameTable gameTable, State state) {
 		this.gameTable=gameTable;
-		this.state = State.O;
+		this.state = state;
 	}
 
 	@Override
 	public void run() {
 		while (gameTable.isGameOver()==false){
 			gameTable.setO(state);
-		}		
+		}
 	}
 }

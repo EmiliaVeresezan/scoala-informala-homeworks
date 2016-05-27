@@ -144,7 +144,7 @@ public class GameTable {
 	 * @return  true if either of the conditions mentioned above is true;
 	 * 		    false otherwise
 	 */
-	public boolean checkForWin(State state){
+	boolean checkForWin(State state){
 		if (checkRow(state)){
 			return true;
 		}
@@ -167,7 +167,7 @@ public class GameTable {
 	 * @return true if there are 3 marks in a row
 	 * 			false otherwise
 	 */
-	public boolean checkRow(State state) {
+	boolean checkRow(State state) {
 		int count = 0; 
 		gameOver = true; 
 		while (count<N-1){
@@ -189,7 +189,7 @@ public class GameTable {
 	 * @return true if there are 3 marks in a row on that column
 	 * 			false otherwise
 	 */
-	public boolean checkColumn(State state) {
+	boolean checkColumn(State state) {
 		int count = 0; 
 		boolean gameOver = true; 
 		while (count<2){
@@ -210,7 +210,7 @@ public class GameTable {
 	 * @return  true if the same mark is set on the primary diagonal
 	 * 			false otherwise.
 	 */
-	public boolean checkPrimaryDiag(State state) {
+	boolean checkPrimaryDiag(State state) {
 		int count = 0; 
 		boolean gameOver = true; 
 		while (count<N-1){
@@ -232,7 +232,7 @@ public class GameTable {
 	 * @return  true if the same mark is set on the secondary diagonal
 	 * 			false otherwise.
 	 */
-	public boolean checkSecondDiag(State state) {
+	boolean checkSecondDiag(State state) {
 		int count = 0; 
 		boolean gameOver = true; 
 		while (count<N-1){
